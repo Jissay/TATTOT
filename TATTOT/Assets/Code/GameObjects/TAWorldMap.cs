@@ -5,22 +5,22 @@ using UnityEngine.Tilemaps;
 public class TAWorldMap : MonoBehaviour
 {
     public Tilemap tilemap;
+    public TAConfiguration configuration;
 
-    // STATIC VARS USED FOR DEBUGGING AND DEVELOPMENT
-    // TODO: Move this to a ressource file
-    private Vector2Int worldSize = new Vector2Int(45, 45);
+    /// <summary>
+    /// World data stored along the main <see cref="Tilemap"/>.
+    /// Each entry is a <see cref="TATerrain"/> instance, with its own parameters.
+    /// </summary>
+    public IDictionary<Vector3Int, TATerrain> world;
 
-    // Start is called before the first frame update
+    #region MonoBehaviour implementation
+
     void Start()
     {
         this.GenerateWorld();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    #endregion
 
     #region World creation
 
@@ -29,23 +29,24 @@ public class TAWorldMap : MonoBehaviour
     ///
     /// TODO: Later on, this process should use a seed.
     /// 
-    /// 1. Ask for the <see cref="TAWorldFactory"/> for a new build.
-    /// 2. Store the <see cref="TATerrain"/> from the new generated build.
-    /// 3. Sync the <see cref="Tilemap"/> with the <see cref="TATerrain"/> stored.
     /// </summary>
     void GenerateWorld()
     {
         /// 1. Load the new world data using <see cref="TAWorldFactory"/>
-        IDictionary<Vector3Int, TATerrain> terrainMatrix = TAWorldFactory.BuildWithSize(this.worldSize);
+        this.configuration = TAConfigurationLoader.LoadConfigurationFile();
+        IDictionary<Vector3Int, TATerrain> terrainMatrix = TAWorldFactory.BuildWithSize(configuration.WorldMapSize());
 
         /// 2. Clear the <see cref="Tilemap"/>
-        //this.tilemap.ClearAllTiles();
+        this.tilemap.ClearAllTiles();
 
         /// 3. Load each <see cref="Tile"/> using <see cref="TATerrain"/> data.
         foreach(KeyValuePair<Vector3Int, TATerrain> terrainData in terrainMatrix)
         { 
             this.tilemap.SetTile(terrainData.Key, TATileLoader.LoadTileFromTerrain(terrainData.Value));
         }
+
+        /// 4. Store the <see cref="TATerrain"/> data along the <see cref="Tilemap"/>
+        this.world = terrainMatrix;
     }
 
     #endregion

@@ -4,9 +4,7 @@ using UnityEngine;
 public class TAWorldFactory
 {
     private static readonly TATerrain[] availableTerrains =
-#pragma warning disable UNT0010 // Component instance creation
         new TATerrain[] { new TAGrass(), new TARock(), new TASand(), new TAWater() };
-#pragma warning restore UNT0010 // Component instance creation
 
     /// <summary>
     /// 
