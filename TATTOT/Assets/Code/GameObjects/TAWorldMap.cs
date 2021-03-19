@@ -4,7 +4,14 @@ using UnityEngine.Tilemaps;
 
 public class TAWorldMap : MonoBehaviour
 {
+    #region Unity Game objects
+
     public Tilemap tilemap;
+
+    #endregion
+
+    #region TA Game objects
+
     public TAConfiguration configuration;
 
     /// <summary>
@@ -13,9 +20,15 @@ public class TAWorldMap : MonoBehaviour
     /// </summary>
     public IDictionary<Vector3Int, TATerrain> world;
 
+    #endregion
+
     #region MonoBehaviour implementation
 
-    void Start() { this.GenerateWorld(); }
+    void Start()
+    {
+        this.GenerateWorld();
+        this.GeneratePlayerStart();
+    }
 
     #endregion
 
@@ -43,6 +56,17 @@ public class TAWorldMap : MonoBehaviour
 
         /// 4. Store the <see cref="TATerrain"/> data along the <see cref="Tilemap"/>
         this.world = terrainMatrix;
+    }
+
+    /// <summary>
+    /// Generate the player start position.
+    /// </summary>
+    void GeneratePlayerStart()
+    {
+        Vector2Int worldSize = TAConfigurationLoader.GetConfiguration().WorldMapSize();
+        Vector3Int playerPosition = TAWorldFactory.BuildPlayerStartPosition(worldSize);
+
+        this.tilemap.SetTile(playerPosition, TATileLoader.LoadPlayerStartTile());
     }
 
     #endregion
