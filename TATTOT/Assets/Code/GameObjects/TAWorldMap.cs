@@ -15,10 +15,7 @@ public class TAWorldMap : MonoBehaviour
 
     #region MonoBehaviour implementation
 
-    void Start()
-    {
-        this.GenerateWorld();
-    }
+    void Start() { this.GenerateWorld(); }
 
     #endregion
 
@@ -33,8 +30,7 @@ public class TAWorldMap : MonoBehaviour
     void GenerateWorld()
     {
         /// 1. Load the new world data using <see cref="TAWorldFactory"/>
-        this.configuration = TAConfigurationLoader.LoadConfigurationFile();
-        IDictionary<Vector3Int, TATerrain> terrainMatrix = TAWorldFactory.BuildWithSize(configuration.WorldMapSize());
+        IDictionary<Vector3Int, TATerrain> terrainMatrix = TAWorldFactory.BuildWithSize(TAConfigurationLoader.GetConfiguration().WorldMapSize());
 
         /// 2. Clear the <see cref="Tilemap"/>
         this.tilemap.ClearAllTiles();
