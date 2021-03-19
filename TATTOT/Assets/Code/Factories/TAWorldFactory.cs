@@ -35,18 +35,25 @@ public class TAWorldFactory
         return terrainMatrix;
     }
 
-    public static Vector3Int BuildPlayerStartPosition(Vector2Int worldSize)
+    /// <summary>
+    /// Using the current world size, we found a position that is far enough
+    /// from the edge of the map.
+    /// </summary>
+    /// <param name="worldSize"></param>
+    /// <returns>The start position as a <see cref="Vector3Int"/></returns>
+    public static Vector3Int BuildPlayerStartPosition()
     {
-        /// Using the current world size, we found a position that is far enough
-        /// from the edge of the map.
+        /// Load the <see cref="TAConfiguration"/> parameters
+        TAConfiguration config = TAConfigurationLoader.GetConfiguration();
+        Vector2Int worldSize = config.WorldMapSize();
+        int maxEdgeReach = config.StartMapEdgeMaxReach();
 
         /// Set the generate parameters
-        int maxEdgeReach = 5;
         int minEdgeReach = 0 + maxEdgeReach;
-
         int maxWidthReach = worldSize.x - maxEdgeReach;
         int maxHeightReach = worldSize.y - maxEdgeReach;
 
+        /// Randomly select a player start position
         int randomX = new System.Random().Next(minEdgeReach, maxWidthReach);
         int randomY = new System.Random().Next(minEdgeReach, maxHeightReach);
 

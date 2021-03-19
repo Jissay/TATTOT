@@ -10,6 +10,8 @@ public class TAConfiguration
     public int worldMapHeight;
     public int worldMapWidth;
 
+    public int startMapEdgeMaxReach;
+
     #endregion
 
     #region Convenience accessors
@@ -18,6 +20,8 @@ public class TAConfiguration
     {
         return new Vector2Int(this.worldMapWidth, this.worldMapHeight);
     }
+
+    public int StartMapEdgeMaxReach() { return startMapEdgeMaxReach; }
 
     #endregion
 }

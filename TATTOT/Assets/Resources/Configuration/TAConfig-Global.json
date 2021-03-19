@@ -1,4 +1,6 @@
 {
 	"worldMapHeight": 45,
-	"worldMapWidth": 50
+	"worldMapWidth": 50,
+
+	"startMapEdgeMaxReach": 5
 }

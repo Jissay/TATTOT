@@ -63,9 +63,10 @@ public class TAWorldMap : MonoBehaviour
     /// </summary>
     void GeneratePlayerStart()
     {
-        Vector2Int worldSize = TAConfigurationLoader.GetConfiguration().WorldMapSize();
-        Vector3Int playerPosition = TAWorldFactory.BuildPlayerStartPosition(worldSize);
+        /// Get the random player start position
+        Vector3Int playerPosition = TAWorldFactory.BuildPlayerStartPosition();
 
+        /// Load the corresponding tile to display it
         this.tilemap.SetTile(playerPosition, TATileLoader.LoadPlayerStartTile());
     }
 
