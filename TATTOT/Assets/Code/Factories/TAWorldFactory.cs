@@ -1,62 +1,70 @@
 using System.Collections.Generic;
+using Code.Loaders;
+using Code.Model.Terrain;
 using UnityEngine;
+using Random = System.Random;
 
-public class TAWorldFactory
+namespace Code.Factories
 {
-    private static readonly TATerrain[] availableTerrains =
-        new TATerrain[] { new TAGrass(), new TARock(), new TASand(), new TAWater() };
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="size"></param>
-    /// <returns></returns>
-    public static IDictionary<Vector3Int, TATerrain> BuildWithSize(Vector2Int size)
+    public static class TAWorldFactory
     {
-        Debug.Log("[ Starting world generation ]");
+        private static readonly TATerrain[] AvailableTerrains =
+            { new TAGrass(), new TARock(), new TASand(), new TAWater() };
 
-        // 1 - Build a matrix to contain data
-        IDictionary<Vector3Int, TATerrain> terrainMatrix = new Dictionary<Vector3Int, TATerrain>();
-        System.Random random = new System.Random();
-
-        // 2 - Fill the array randomly using the given size
-        for (int x = 0; x < size.x; x++)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static IDictionary<Vector3Int, TATerrain> BuildWithSize(Vector2Int size)
         {
-            for(int y = 0; y < size.y; y++)
-            {
-                // Pick a terrain from the availableTerrains
-                int selectedTerrain = random.Next(0, availableTerrains.Length);
+            Debug.Log("[ Starting world generation ]");
 
-                // Create a tuple with position and terrain
-                terrainMatrix.Add(new Vector3Int(x, y, 0), availableTerrains[selectedTerrain]);
+            // 1 - Build a matrix to contain data
+            IDictionary<Vector3Int, TATerrain> terrainMatrix = new Dictionary<Vector3Int, TATerrain>();
+            var random = new Random();
+
+            // 2 - Fill the array randomly using the given size
+            for (var x = 0; x < size.x; x++)
+            {
+                for(var y = 0; y < size.y; y++)
+                {
+                    // Pick a terrain from the availableTerrains
+                    var selectedTerrain = random.Next(0, AvailableTerrains.Length);
+
+                    // Create a tuple with position and terrain
+                    terrainMatrix.Add(new Vector3Int(x, y, 0), AvailableTerrains[selectedTerrain]);
+                }
             }
+
+            return terrainMatrix;
         }
 
-        return terrainMatrix;
-    }
+        /// <summary>
+        /// Using the current world size, we found a position that is far enough
+        /// from the edge of the map.
+        /// </summary>
+        /// <returns>The start position as a <see cref="Vector3Int"/></returns>
+        public static Vector3Int BuildPlayerStartPosition()
+        {
+            Debug.Log("[ Building player start position ]");
 
-    /// <summary>
-    /// Using the current world size, we found a position that is far enough
-    /// from the edge of the map.
-    /// </summary>
-    /// <param name="worldSize"></param>
-    /// <returns>The start position as a <see cref="Vector3Int"/></returns>
-    public static Vector3Int BuildPlayerStartPosition()
-    {
-        /// Load the <see cref="TAConfiguration"/> parameters
-        TAConfiguration config = TAConfigurationLoader.GetConfiguration();
-        Vector2Int worldSize = config.WorldMapSize();
-        int maxEdgeReach = config.StartMapEdgeMaxReach();
+            // Load the configuration parameters
+            var config = TAConfigurationLoader.GetConfiguration();
+            var worldSize = config.WorldMapSize();
+            var maxEdgeReach = config.StartMapEdgeMaxReach();
 
-        /// Set the generate parameters
-        int minEdgeReach = 0 + maxEdgeReach;
-        int maxWidthReach = worldSize.x - maxEdgeReach;
-        int maxHeightReach = worldSize.y - maxEdgeReach;
+            // Set the generate parameters
+            var minEdgeReach = 0 + maxEdgeReach;
+            var maxWidthReach = worldSize.x - maxEdgeReach;
+            var maxHeightReach = worldSize.y - maxEdgeReach;
 
-        /// Randomly select a player start position
-        int randomX = new System.Random().Next(minEdgeReach, maxWidthReach);
-        int randomY = new System.Random().Next(minEdgeReach, maxHeightReach);
+            // Randomly select a player start position
+            var random = new Random();
+            var randomX = random.Next(minEdgeReach, maxWidthReach);
+            var randomY = random.Next(minEdgeReach, maxHeightReach);
 
-        return new Vector3Int(randomX, randomY, 0);
+            return new Vector3Int(randomX, randomY, 0);
+        }
     }
 }
