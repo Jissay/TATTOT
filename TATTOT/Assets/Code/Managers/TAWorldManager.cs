@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Code.Events;
 using Code.Factories;
 using Code.GameObjects;
 using Code.Loaders;
@@ -69,6 +70,9 @@ namespace Code.Managers
 
             // Load the corresponding tile to display it
             worldMap.tilemap.SetTile(playerPosition, TATileLoader.LoadPlayerStartTile());
+            
+            // Alert about updated player position
+            TAEventManager.Shared().DidSetPlayerStartPositionEvent.Invoke(playerPosition);
         }
         #endregion
         

@@ -4,6 +4,8 @@ namespace Code.Events
     {
         #region Event storage
 
+        public TADidSetPlayerStartPositionEvent DidSetPlayerStartPositionEvent { get; } = new TADidSetPlayerStartPositionEvent();
+        
         #endregion
         
         #region Singleton handling
