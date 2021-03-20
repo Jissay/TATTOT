@@ -8,8 +8,8 @@ namespace Code.Factories
 {
     public static class TAWorldFactory
     {
-        private static readonly TATerrain[] AvailableTerrains =
-            { new TAGrass(), new TARock(), new TASand(), new TAWater() };
+        private static readonly TATerrainFactory[] AvailableTerrains =
+            { new TAGrassFactory(), new TARockFactory(), new TASandFactory(), new TAWaterFactory() };
 
         /// <summary>
         /// 
@@ -18,8 +18,6 @@ namespace Code.Factories
         /// <returns></returns>
         public static IDictionary<Vector3Int, TATerrain> BuildWithSize(Vector2Int size)
         {
-            Debug.Log("[ Starting world generation ]");
-
             // 1 - Build a matrix to contain data
             IDictionary<Vector3Int, TATerrain> terrainMatrix = new Dictionary<Vector3Int, TATerrain>();
             var random = new Random();
@@ -30,10 +28,10 @@ namespace Code.Factories
                 for(var y = 0; y < size.y; y++)
                 {
                     // Pick a terrain from the availableTerrains
-                    var selectedTerrain = random.Next(0, AvailableTerrains.Length);
+                    var terrainType = random.Next(0, AvailableTerrains.Length);
 
                     // Create a tuple with position and terrain
-                    terrainMatrix.Add(new Vector3Int(x, y, 0), AvailableTerrains[selectedTerrain]);
+                    terrainMatrix.Add(new Vector3Int(x, y, 0), AvailableTerrains[terrainType].Create());
                 }
             }
 
@@ -47,19 +45,17 @@ namespace Code.Factories
         /// <returns>The start position as a <see cref="Vector3Int"/></returns>
         public static Vector3Int BuildPlayerStartPosition()
         {
-            Debug.Log("[ Building player start position ]");
-
-            // Load the configuration parameters
+            // 1 - Load the configuration parameters
             var config = TAConfigurationLoader.GetConfiguration();
             var worldSize = config.WorldMapSize();
             var maxEdgeReach = config.StartMapEdgeMaxReach();
 
-            // Set the generate parameters
+            // 2 - Set the generate parameters
             var minEdgeReach = 0 + maxEdgeReach;
             var maxWidthReach = worldSize.x - maxEdgeReach;
             var maxHeightReach = worldSize.y - maxEdgeReach;
 
-            // Randomly select a player start position
+            // 3 - Randomly select a player start position
             var random = new Random();
             var randomX = random.Next(minEdgeReach, maxWidthReach);
             var randomY = random.Next(minEdgeReach, maxHeightReach);

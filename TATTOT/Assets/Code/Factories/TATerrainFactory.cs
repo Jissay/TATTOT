@@ -1,13 +1,29 @@
-using System;
 using Code.Model.Terrain;
 
 namespace Code.Factories
 {
-    public class TATerrainFactory<T> where T : TATerrain, new()
+    public abstract class TATerrainFactory
     {
-        public T Create()
-        {
-            return new T();
-        }
+        public abstract TATerrain Create();
+    }
+
+    public class TAGrassFactory: TATerrainFactory
+    {
+        public override TATerrain Create() { return new TAGrass(); }
+    }
+    
+    public class TARockFactory: TATerrainFactory
+    {
+        public override TATerrain Create() { return new TARock(); }
+    }
+    
+    public class TASandFactory: TATerrainFactory
+    {
+        public override TATerrain Create() { return new TASand(); }
+    }
+    
+    public class TAWaterFactory: TATerrainFactory
+    {
+        public override TATerrain Create() { return new TAWater(); }
     }
 }

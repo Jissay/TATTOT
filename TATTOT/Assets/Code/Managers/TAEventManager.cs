@@ -4,8 +4,6 @@ namespace Code.Events
     {
         #region Event storage
 
-        public TACreateWorldEvent CreateWorldEvent { get; } = new TACreateWorldEvent();
-
         #endregion
         
         #region Singleton handling

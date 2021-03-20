@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Code.Events;
 using Code.Factories;
 using Code.GameObjects;
 using Code.Loaders;
@@ -10,22 +9,23 @@ namespace Code.Managers
 {
     public class TAWorldManager : TAAbstractManager<TAWorldManager>
     {
+        /// <summary>
+        /// <see cref="TAWorldMap"/> object set in Unity UI. This is the tilemap that is displayed
+        /// to the player.
+        /// </summary>
         public TAWorldMap worldMap;
 
         private IDictionary<Vector3Int, TATerrain> _worldData;
         
         #region MonoBehaviour implementation
 
-        private void Start()
-        {
-            TAEventManager.Shared().CreateWorldEvent.AddListener(CreateWorld);
-        }
+        private void Start() { }
 
         #endregion
 
         #region World creation
 
-        private void CreateWorld()
+        public void CreateWorld()
         {
             GenerateWorld();
             GeneratePlayerStart();
@@ -39,6 +39,8 @@ namespace Code.Managers
         /// </summary>
         private void GenerateWorld()
         {
+            Debug.Log("[ Starting world generation ]");
+            
             // 1. Load the new world data using <see cref="TAWorldFactory"/>
             var terrainMatrix = TAWorldFactory.BuildWithSize(TAConfigurationLoader.GetConfiguration().WorldMapSize());
 
@@ -60,6 +62,8 @@ namespace Code.Managers
         /// </summary>
         private void GeneratePlayerStart()
         {
+            Debug.Log("[ Building player start position ]");
+            
             // Get the random player start position
             var playerPosition = TAWorldFactory.BuildPlayerStartPosition();
 
