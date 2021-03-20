@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Code.Events;
 using Code.Factories;
 using Code.GameObjects;
 using Code.Loaders;
+using Code.Logic.Events;
 using Code.Model.Terrain;
 using UnityEngine;
 
@@ -72,8 +72,9 @@ namespace Code.Managers
             worldMap.tilemap.SetTile(playerPosition, TATileLoader.LoadPlayerStartTile());
             
             // Alert about updated player position
-            TAEventManager.Shared().DidSetPlayerStartPositionEvent.Invoke(playerPosition);
+            TAEventManager.Shared().PleaseCreatePlayerInWorldEvent.Invoke(playerPosition);
         }
+
         #endregion
         
     }

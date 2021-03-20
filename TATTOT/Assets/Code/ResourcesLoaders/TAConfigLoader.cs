@@ -1,4 +1,4 @@
-using Code.Model;
+using Code.Logic;
 using UnityEngine;
 
 namespace Code.Loaders

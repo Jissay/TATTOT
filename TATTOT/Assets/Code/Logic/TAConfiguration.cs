@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Code.Model
+namespace Code.Logic
 {
     [Serializable]
     public class TAConfiguration

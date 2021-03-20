@@ -1,7 +1,6 @@
-using System.Numerics;
 using UnityEngine;
 
-namespace Code.Model
+namespace Code.Logic
 {
     public class TAOpponent
     {

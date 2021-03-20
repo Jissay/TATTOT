@@ -1,10 +1,13 @@
-namespace Code.Events
+using Code.Events;
+
+namespace Code.Logic.Events
 {
     public class TAEventManager
     {
         #region Event storage
 
-        public TADidSetPlayerStartPositionEvent DidSetPlayerStartPositionEvent { get; } = new TADidSetPlayerStartPositionEvent();
+        public TADidCreateOpponentEvent DidCreateOpponentEvent { get; } = new TADidCreateOpponentEvent(); 
+        public TAPleaseCreatePlayerInWorldEvent PleaseCreatePlayerInWorldEvent { get; } = new TAPleaseCreatePlayerInWorldEvent();
         
         #endregion
         

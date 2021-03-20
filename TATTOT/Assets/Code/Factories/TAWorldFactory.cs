@@ -8,7 +8,7 @@ namespace Code.Factories
 {
     public static class TAWorldFactory
     {
-        private static readonly TATerrainFactory[] AvailableTerrains =
+        private static readonly TATerrainFactory[] TerrainTypes =
             { new TAGrassFactory(), new TARockFactory(), new TASandFactory(), new TAWaterFactory() };
 
         /// <summary>
@@ -28,10 +28,10 @@ namespace Code.Factories
                 for(var y = 0; y < size.y; y++)
                 {
                     // Pick a terrain from the availableTerrains
-                    var terrainType = random.Next(0, AvailableTerrains.Length);
+                    var terrainType = random.Next(0, TerrainTypes.Length);
 
                     // Create a tuple with position and terrain
-                    terrainMatrix.Add(new Vector3Int(x, y, 0), AvailableTerrains[terrainType].Create());
+                    terrainMatrix.Add(new Vector3Int(x, y, 0), TerrainTypes[terrainType].Create());
                 }
             }
 
@@ -59,7 +59,7 @@ namespace Code.Factories
             var random = new Random();
             var randomX = random.Next(minEdgeReach, maxWidthReach);
             var randomY = random.Next(minEdgeReach, maxHeightReach);
-
+            
             return new Vector3Int(randomX, randomY, 0);
         }
     }

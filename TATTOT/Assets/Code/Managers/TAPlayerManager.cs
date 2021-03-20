@@ -1,6 +1,5 @@
-using System;
-using Code.Events;
-using Code.Model;
+using Code.Logic;
+using Code.Logic.Events;
 using UnityEngine;
 
 namespace Code.Managers
@@ -10,16 +9,20 @@ namespace Code.Managers
         /// <summary>
         /// <see cref="TAOpponent"/> that's controlled by the player. 
         /// </summary>
-        private readonly TAOpponent _opponent = new TAOpponent(true);
+        private TAOpponent _opponent;
 
         private void Start()
         {
-            TAEventManager.Shared().DidSetPlayerStartPositionEvent.AddListener(DidSetNewPlayerStartPosition);
+            TAEventManager.Shared().PleaseCreatePlayerInWorldEvent.AddListener(CreateNewPlayer);
         }
 
-        private void DidSetNewPlayerStartPosition(Vector3Int newPosition)
+        private void CreateNewPlayer(Vector3Int newPosition)
         {
-            _opponent.StartPosition = newPosition;
+            // Set player data
+            _opponent = new TAOpponent(true) { StartPosition = newPosition };
+
+            // Broadcast player data creation
+            TAEventManager.Shared().DidCreateOpponentEvent.Invoke(_opponent);
         }
     }
 }
