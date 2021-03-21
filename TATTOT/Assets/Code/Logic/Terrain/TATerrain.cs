@@ -1,7 +1,12 @@
-namespace Code.Model.Terrain
+using Code.Logic.Events;
+using UnityEngine;
+
+namespace Code.Logic.Terrain
 {
     public abstract class TATerrain
     {
+        public bool IsValidStartPosition = true;
+        
         /// <summary>
         /// Get the tile name from the <see cref="TATerrain"/> type.
         /// </summary>

@@ -13,16 +13,9 @@ namespace Code.Managers
 
         private void Start()
         {
-            TAEventManager.Shared().PleaseCreatePlayerInWorldEvent.AddListener(CreateNewPlayer);
+            TAEventManager.Shared().DidCreatePlayerInWorldEvent.AddListener(AddNewPlayer);
         }
 
-        private void CreateNewPlayer(Vector3Int newPosition)
-        {
-            // Set player data
-            _opponent = new TAOpponent(true) { StartPosition = newPosition };
-
-            // Broadcast player data creation
-            TAEventManager.Shared().DidCreateOpponentEvent.Invoke(_opponent);
-        }
+        private void AddNewPlayer(TAOpponent opponent) { _opponent = opponent; }
     }
 }

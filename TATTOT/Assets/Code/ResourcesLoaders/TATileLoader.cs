@@ -1,11 +1,16 @@
-using Code.Model.Terrain;
+using Code.Logic.Terrain;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Code.Loaders
+namespace Code.ResourcesLoaders
 {
     public static class TATileLoader
     {
+        public static Tile LoadOpponentStartTile()
+        {
+            return Resources.Load<Tile>("Tiles/PlayerPosition");
+        }
+        
         public static Tile LoadPlayerStartTile()
         {
             return Resources.Load<Tile>("Tiles/PlayerPosition");

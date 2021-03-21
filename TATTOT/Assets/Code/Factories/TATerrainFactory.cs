@@ -1,4 +1,4 @@
-using Code.Model.Terrain;
+using Code.Logic.Terrain;
 
 namespace Code.Factories
 {

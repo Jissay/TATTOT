@@ -1,6 +1,6 @@
 using System;
 
-namespace Code.Tools
+namespace Code.Utils
 {
     /// See https://www.codeproject.com/Articles/572263/A-Reusable-Base-Class-for-the-Singleton-Pattern-in
     public abstract class TASingleton<T>

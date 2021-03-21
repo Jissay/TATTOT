@@ -1,4 +1,4 @@
-namespace Code.Model.Terrain
+namespace Code.Logic.Terrain
 {
     internal class TAWater : TATerrain
     {

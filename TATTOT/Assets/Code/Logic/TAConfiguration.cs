@@ -9,22 +9,24 @@ namespace Code.Logic
         /* JSON Attributes MUST be public and without any getter / setter */
 
         #region Game settings
+
+        public int numberOfOpponents;
+
+        #endregion
+        
+        #region World generation settings
         
         public int worldMapHeight;
         public int worldMapWidth;
 
+        public int opponentMaxReach;
         public int startMapEdgeMaxReach;
 
         #endregion
 
-        #region Convenience accessors
+        #region Computed vars
 
-        public Vector2Int WorldMapSize()
-        {
-            return new Vector2Int(worldMapWidth, worldMapHeight);
-        }
-
-        public int StartMapEdgeMaxReach() { return startMapEdgeMaxReach; }
+        public Vector2Int worldMapSize => new Vector2Int(worldMapWidth, worldMapHeight);
 
         #endregion
     }

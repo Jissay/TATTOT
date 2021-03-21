@@ -1,9 +1,12 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using Code.Factories;
 using Code.GameObjects;
-using Code.Loaders;
+using Code.Logic;
 using Code.Logic.Events;
-using Code.Model.Terrain;
+using Code.Logic.Terrain;
+using Code.ResourcesLoaders;
 using UnityEngine;
 
 namespace Code.Managers
@@ -16,8 +19,6 @@ namespace Code.Managers
         /// </summary>
         public TAWorldMap worldMap;
 
-        private IDictionary<Vector3Int, TATerrain> _worldData;
-        
         #region MonoBehaviour implementation
 
         private void Start() { }
@@ -30,6 +31,7 @@ namespace Code.Managers
         {
             GenerateWorld();
             GeneratePlayerStart();
+            GenerateOpponentsStart();
         }
         
         /// <summary>
@@ -43,19 +45,19 @@ namespace Code.Managers
             Debug.Log("[ Starting world generation ]");
             
             // 1. Load the new world data using <see cref="TAWorldFactory"/>
-            var terrainMatrix = TAWorldFactory.BuildWithSize(TAConfigurationLoader.GetConfiguration().WorldMapSize());
+            var terrainMatrix = TAWorldFactory.BuildWithSize(TAConfigurationLoader.GetConfiguration().worldMapSize);
 
-            // 2. Clear the <see cref="Tilemap"/>
+            // 2. Clear the Tilemap
             worldMap.tilemap.ClearAllTiles();
 
-            // 3. Load each <see cref="Tile"/> using <see cref="TATerrain"/> data.
+            // 3. Load each Tile using TATerrain data.
             foreach(var terrainData in terrainMatrix)
-            { 
+            {
                 worldMap.tilemap.SetTile(terrainData.Key, TATileLoader.LoadTileFromTerrain(terrainData.Value));
             }
 
-            // 4. Store the <see cref="TATerrain"/> data along the <see cref="Tilemap"/>
-            _worldData = terrainMatrix;
+            // 4. Store the TATerrain data along the Tilemap
+            worldMap.WorldData = terrainMatrix;
         }
 
         /// <summary>
@@ -66,13 +68,32 @@ namespace Code.Managers
             Debug.Log("[ Building player start position ]");
             
             // Get the random player start position
-            var playerPosition = TAWorldFactory.BuildPlayerStartPosition();
+            var playerPosition = TAWorldFactory.BuildStartPosition(worldMap);
 
             // Load the corresponding tile to display it
-            worldMap.tilemap.SetTile(playerPosition, TATileLoader.LoadPlayerStartTile());
+            worldMap.SetNewStartPosition(playerPosition, true);
             
             // Alert about updated player position
             TAEventManager.Shared().PleaseCreatePlayerInWorldEvent.Invoke(playerPosition);
+        }
+
+        /// <summary>
+        /// Generate each <see cref="TAOpponent"/> start position on the <see cref="TAWorldMap"/>.
+        /// </summary>
+        private void GenerateOpponentsStart()
+        {
+            Debug.Log("[ Building opponents start position ]");
+
+            var maxOpponents = TAConfigurationLoader.GetConfiguration().numberOfOpponents;
+            var opponentsPositions = new List<Vector3Int>();
+            
+            for (var o = 0; o < maxOpponents; o++)
+            {
+                var opponentPosition = TAWorldFactory.BuildStartPosition(worldMap);
+
+                worldMap.SetNewStartPosition(opponentPosition, false);
+                opponentsPositions.Add(opponentPosition);
+            }
         }
 
         #endregion

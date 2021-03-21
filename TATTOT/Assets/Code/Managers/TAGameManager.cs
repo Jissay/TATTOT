@@ -9,6 +9,8 @@ namespace Code.Managers
         /// and data. Handles the displayed <see cref="TAWorldMap"/>
         /// </summary>
         public TAWorldManager worldManager;
+
+        public TAOpponentsManager opponentsManager;
         
         void Start()
         {

@@ -1,8 +1,7 @@
-using Code.Logic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Code.Events
+namespace Code.Logic.Events
 {
     /// <summary>
     /// Naming conventions :
@@ -12,12 +11,14 @@ namespace Code.Events
     
     #region Opponent related events
 
-    public class TADidCreateOpponentEvent: UnityEvent<TAOpponent> { }
-
+    public class TADidCreateOpponentInWorldEvent: UnityEvent<TAOpponent> { }
+    public class TAPleaseCreateOpponentInWorldEvent: UnityEvent<Vector3Int> { }
+    
     #endregion
     
     #region Player related events
     
+    public class TADidCreatePlayerInWorldEvent: UnityEvent<TAOpponent> { }
     public class TAPleaseCreatePlayerInWorldEvent: UnityEvent<Vector3Int> { }
 
     #endregion
@@ -25,7 +26,8 @@ namespace Code.Events
     #region World related events
 
     public class TADidGenerateWorldEvent: UnityEvent {}
-
+    public class TADidAddNewStartPositionEvent: UnityEvent<Vector3Int> {}
+    
     #endregion
     
 }

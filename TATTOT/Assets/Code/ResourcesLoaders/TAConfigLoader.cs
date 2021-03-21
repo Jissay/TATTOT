@@ -1,7 +1,7 @@
 using Code.Logic;
 using UnityEngine;
 
-namespace Code.Loaders
+namespace Code.ResourcesLoaders
 {
     /// <summary>
     /// Load any configuration files available.
