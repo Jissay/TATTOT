@@ -7,7 +7,7 @@ namespace Code.Managers
 {
     public class TAOpponentsManager: TAAbstractManager<TAOpponentsManager>
     {
-        private List<TAOpponent> _opponents = new List<TAOpponent>();
+        private readonly List<TAOpponent> _opponents = new List<TAOpponent>();
 
         #region MonoBehaviour implementation
 
@@ -22,25 +22,20 @@ namespace Code.Managers
 
         #region Opponents management
 
-        private void CreateNewOpponent(Vector3Int position, bool isPlayer)
+        private static void CreateNewOpponent(Vector3Int position, bool isPlayer)
         {
             var opponent = new TAOpponent(isPlayer) { StartPosition = position};
-
+            
             // Broadcast player data creation
             TAEventManager.Shared().DidCreateOpponentInWorldEvent.Invoke(opponent);
-
-            if (isPlayer)
-            {
-                TAEventManager.Shared().DidCreateOpponentInWorldEvent.Invoke(opponent); 
-            }
         }
         
-        private void CreateNewPlayerWrapper(Vector3Int position)
+        private static void CreateNewPlayerWrapper(Vector3Int position)
         {
             CreateNewOpponent(position, true);
         }
         
-        private void CreateNewOpponentWrapper(Vector3Int position) { CreateNewOpponent(position, false); }
+        private static void CreateNewOpponentWrapper(Vector3Int position) { CreateNewOpponent(position, false); }
         
         private void AddNewOpponent(TAOpponent opponent) { _opponents.Add(opponent); }
 

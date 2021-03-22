@@ -85,14 +85,14 @@ namespace Code.Managers
             Debug.Log("[ Building opponents start position ]");
 
             var maxOpponents = TAConfigurationLoader.GetConfiguration().numberOfOpponents;
-            var opponentsPositions = new List<Vector3Int>();
-            
+
             for (var o = 0; o < maxOpponents; o++)
             {
                 var opponentPosition = TAWorldFactory.BuildStartPosition(worldMap);
-
                 worldMap.SetNewStartPosition(opponentPosition, false);
-                opponentsPositions.Add(opponentPosition);
+                
+                // Alert that a new opponent has been created
+                TAEventManager.Shared().PleaseCreateOpponentInWorldEvent.Invoke(opponentPosition);
             }
         }
 

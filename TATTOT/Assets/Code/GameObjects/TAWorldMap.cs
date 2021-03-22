@@ -25,13 +25,7 @@ namespace Code.GameObjects
         public Dictionary<Vector3Int, TATerrain> WorldData { get; set; }
 
         #endregion
-
-        #region MonoBehaviour implementation
-
-        private void Start() { }
-
-        #endregion
-
+        
         #region WorldMap updates
 
         public void SetNewStartPosition(Vector3Int newPosition, bool isAPlayer)
@@ -39,8 +33,7 @@ namespace Code.GameObjects
             ClearEligibleStartPositions(newPosition);
             
             // Update the tile displayed to match and show the new start position
-            //TODO: change when the start tile is ready
-            tilemap.SetTile(newPosition, isAPlayer ? TATileLoader.LoadTileFromTerrain(new TARock()) : TATileLoader.LoadOpponentStartTile());
+            tilemap.SetTile(newPosition, isAPlayer ? TATileLoader.LoadPlayerStartTile() : TATileLoader.LoadOpponentStartTile());
         }
 
         private void ClearEligibleStartPositions(Vector3Int newPosition)
@@ -50,11 +43,6 @@ namespace Code.GameObjects
 
             // 2. Load the max reach parameter from the configuration
             var maxReach = TAConfigurationLoader.GetConfiguration().opponentMaxReach;
-            
-            // 3. Gather the surroundings of the new start position
-            var centerX = newPosition.x;
-            var centerY = newPosition.y;
-
             foreach (var tile in TATileTools.GetTilesInRadius(newPosition, maxReach))
             {
                 SetPositionAsNotEligible(tile.x, tile.y);
@@ -65,7 +53,6 @@ namespace Code.GameObjects
         {
             var position = new Vector3Int(x, y, 0);
             WorldData[position].IsValidStartPosition = false;
-            tilemap.SetTile(position, TATileLoader.LoadPlayerStartTile());
         }
 
         #endregion

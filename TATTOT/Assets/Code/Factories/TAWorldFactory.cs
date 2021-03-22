@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Code.GameObjects;
@@ -15,10 +14,10 @@ namespace Code.Factories
             { new TAGrassFactory(), new TARockFactory(), new TASandFactory(), new TAWaterFactory() };
 
         /// <summary>
-        /// 
+        /// Build a new map with a given size.
         /// </summary>
-        /// <param name="size"></param>
-        /// <returns></returns>
+        /// <param name="size">Size of the map to build.</param>
+        /// <returns>The new built map.</returns>
         public static Dictionary<Vector3Int, TATerrain> BuildWithSize(Vector2Int size)
         {
             // 1 - Build a matrix to contain data
