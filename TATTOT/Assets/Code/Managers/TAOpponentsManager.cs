@@ -11,7 +11,7 @@ namespace Code.Managers
 
         #region MonoBehaviour implementation
 
-        private void Start()
+        private void Awake()
         {
             TAEventManager.Shared().DidCreateOpponentInWorldEvent.AddListener(AddNewOpponent);
             TAEventManager.Shared().PleaseCreateOpponentInWorldEvent.AddListener(CreateNewOpponentWrapper);

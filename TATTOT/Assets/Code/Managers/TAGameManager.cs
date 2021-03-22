@@ -11,8 +11,8 @@ namespace Code.Managers
         public TAWorldManager worldManager;
 
         public TAOpponentsManager opponentsManager;
-        
-        void Start()
+
+        private void Start()
         {
             worldManager.CreateWorld();
         }

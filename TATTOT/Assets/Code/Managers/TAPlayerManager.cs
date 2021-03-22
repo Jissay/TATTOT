@@ -11,7 +11,7 @@ namespace Code.Managers
         /// </summary>
         private TAOpponent _opponent;
 
-        private void Start()
+        private void Awake()
         {
             TAEventManager.Shared().DidCreatePlayerInWorldEvent.AddListener(AddNewPlayer);
         }

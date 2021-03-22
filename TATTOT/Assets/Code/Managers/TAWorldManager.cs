@@ -19,12 +19,6 @@ namespace Code.Managers
         /// </summary>
         public TAWorldMap worldMap;
 
-        #region MonoBehaviour implementation
-
-        private void Start() { }
-
-        #endregion
-
         #region World creation
 
         public void CreateWorld()
