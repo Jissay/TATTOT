@@ -8,12 +8,12 @@ namespace Code.ResourcesLoaders
     {
         public static Tile LoadOpponentStartTile()
         {
-            return Resources.Load<Tile>("Tiles/PlayerPosition");
+            return Resources.Load<Tile>("Tiles/OpponentStartPosition");
         }
         
         public static Tile LoadPlayerStartTile()
         {
-            return Resources.Load<Tile>("Tiles/PlayerPosition");
+            return Resources.Load<Tile>("Tiles/PlayerStartPosition");
         }
 
         public static Tile LoadTileFromTerrain(TATerrain terrain)
