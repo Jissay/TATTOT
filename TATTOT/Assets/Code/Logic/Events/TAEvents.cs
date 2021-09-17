@@ -8,10 +8,26 @@ namespace Code.Logic.Events
     /// - "Please" events are when a task is required (ex: PleaseCreatePlayer means a player object should be created).
     /// - "Did" events are when a task has been performed (ex: DidCreateOpponent means an opponent has been created).
     /// </summary>
+
+    #region Game related events
+
+    public class TADidStartGameEvent: UnityEvent {}
+    /// <summary>
+    /// Parameter int is the number of opponents in the game.
+    /// </summary>
+    public class TAPleaseStartGameEvent: UnityEvent<int> {}
+
+    #endregion
     
     #region Opponent related events
 
+    /// <summary>
+    /// Parameter <see cref="TAOpponent"/> is the opponent created.
+    /// </summary>
     public class TADidCreateOpponentInWorldEvent: UnityEvent<TAOpponent> { }
+    /// <summary>
+    /// Parameter <see cref="TAOpponent"/> is the opponent to create.
+    /// </summary>
     public class TAPleaseCreateOpponentInWorldEvent: UnityEvent<Vector3Int> { }
     
     #endregion
@@ -25,8 +41,10 @@ namespace Code.Logic.Events
     
     #region World related events
 
-    public class TADidGenerateWorldEvent: UnityEvent {}
+    public class TADidCreateWorldEvent: UnityEvent {}
+    public class TAPleaseCreateWorldEvent: UnityEvent {}
     public class TADidAddNewStartPositionEvent: UnityEvent<Vector3Int> {}
+    public class TADidReadyWorldEvent: UnityEvent {}
     
     #endregion
     

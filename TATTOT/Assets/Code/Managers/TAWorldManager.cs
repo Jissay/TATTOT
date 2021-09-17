@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Code.Factories;
 using Code.GameObjects;
 using Code.Logic;
 using Code.Logic.Events;
-using Code.Logic.Terrain;
 using Code.ResourcesLoaders;
 using UnityEngine;
 
@@ -19,13 +15,24 @@ namespace Code.Managers
         /// </summary>
         public TAWorldMap worldMap;
 
-        #region World creation
+        #region MonoBehaviour implementation
 
+        private void Awake()
+        {
+            TAEventManager.Shared().PleaseCreateWorldEvent.AddListener(CreateWorld);
+        }
+
+        #endregion
+        
+        #region World creation
+        
         public void CreateWorld()
         {
             GenerateWorld();
             GeneratePlayerStart();
             GenerateOpponentsStart();
+            
+            TAEventManager.Shared().DidCreateWorldEvent.Invoke();
         }
         
         /// <summary>
@@ -44,7 +51,7 @@ namespace Code.Managers
             // 2. Clear the Tilemap
             worldMap.tilemap.ClearAllTiles();
 
-            // 3. Load each Tile using TATerrain data.
+            // 3. Load each Tile using TATerrain data
             foreach(var terrainData in terrainMatrix)
             {
                 worldMap.tilemap.SetTile(terrainData.Key, TATileLoader.LoadTileFromTerrain(terrainData.Value));
@@ -52,6 +59,9 @@ namespace Code.Managers
 
             // 4. Store the TATerrain data along the Tilemap
             worldMap.WorldData = terrainMatrix;
+
+            // 5. Alert the game that world has been created
+            TAEventManager.Shared().DidCreateWorldEvent.Invoke();
         }
 
         /// <summary>
@@ -61,13 +71,13 @@ namespace Code.Managers
         {
             Debug.Log("[ Building player start position ]");
             
-            // Get the random player start position
+            // 1. Get the random player start position
             var playerPosition = TAWorldFactory.BuildStartPosition(worldMap);
 
-            // Load the corresponding tile to display it
+            // 2. Load the corresponding tile to display it
             worldMap.SetNewStartPosition(playerPosition, true);
             
-            // Alert about updated player position
+            // 3. Alert about updated player position
             TAEventManager.Shared().PleaseCreatePlayerInWorldEvent.Invoke(playerPosition);
         }
 
@@ -85,12 +95,11 @@ namespace Code.Managers
                 var opponentPosition = TAWorldFactory.BuildStartPosition(worldMap);
                 worldMap.SetNewStartPosition(opponentPosition, false);
                 
-                // Alert that a new opponent has been created
+                // Alert that a new opponent position has been created
                 TAEventManager.Shared().PleaseCreateOpponentInWorldEvent.Invoke(opponentPosition);
             }
         }
 
         #endregion
-        
     }
 }
