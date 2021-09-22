@@ -1,11 +1,13 @@
+using System;
 using Code.GameObjects;
 using Code.Logic.Events;
-using Code.Logic.Watchers;
+using Code.Managers.Watchers;
 using Code.ResourcesLoaders;
+using UnityEngine;
 
 namespace Code.Managers
 {
-    public class TAGameManager : TAAbstractManager<TAGameManager>
+    public class TAGameManager : MonoBehaviour
     {
         /// <summary>
         /// <see cref="TAWorldWatcher"/> created at the <see cref="Start()"/> lifecycle method.
@@ -20,18 +22,22 @@ namespace Code.Managers
         public TAWorldManager worldManager;
 
         public TAOpponentsManager opponentsManager;
-        
-        private void Start()
+
+        public void Awake()
         {
             // Create the world watcher component. Doesn't need to be shown in Unity.
             _worldWatcher = gameObject.AddComponent<TAWorldWatcher>();
             
-            worldManager.CreateWorld();
-            
             TAEventManager.Shared().DidReadyWorldEvent.AddListener(WorldReady);
         }
 
-        private void WorldReady()
+        public void Start()
+        {
+            // This must be at Start, to let all the event listeners load in Awake() methods.
+            worldManager.CreateWorld();
+        }
+
+        private static void WorldReady()
         {
             TAEventManager.Shared().PleaseStartGameEvent.Invoke(TAConfigurationLoader.GetConfiguration().numberOfOpponents + 1);
         }

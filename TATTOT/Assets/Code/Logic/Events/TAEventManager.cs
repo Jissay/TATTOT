@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Code.Logic.Events
 {
     public class TAEventManager
@@ -8,14 +10,18 @@ namespace Code.Logic.Events
         public TADidCreateOpponentInWorldEvent DidCreateOpponentInWorldEvent { get; } = new TADidCreateOpponentInWorldEvent();
         public TADidCreatePlayerInWorldEvent DidCreatePlayerInWorldEvent { get; } = new TADidCreatePlayerInWorldEvent();
         public TADidCreateWorldEvent DidCreateWorldEvent { get; } = new TADidCreateWorldEvent();
-        public TADidStartGameEvent DidStartGameEvent { get; } = new TADidStartGameEvent();
         public TADidReadyWorldEvent DidReadyWorldEvent { get; } = new TADidReadyWorldEvent();
-        
+        public TADidStartGameEvent DidStartGameEvent { get; } = new TADidStartGameEvent();
+        public TADidStartNewTurnEvent DidStartNewTurnEvent { get; } = new TADidStartNewTurnEvent();
+
         public TAPleaseCreateOpponentInWorldEvent PleaseCreateOpponentInWorldEvent { get; } =
             new TAPleaseCreateOpponentInWorldEvent();
         public TAPleaseCreatePlayerInWorldEvent PleaseCreatePlayerInWorldEvent { get; } = new TAPleaseCreatePlayerInWorldEvent();
         public TAPleaseCreateWorldEvent PleaseCreateWorldEvent { get; } = new TAPleaseCreateWorldEvent();
         public TAPleaseStartGameEvent PleaseStartGameEvent { get; } = new TAPleaseStartGameEvent();
+
+        public TAPleaseUpdateActiveOpponentEvent PleaseUpdateActiveOpponentEvent { get; } =
+            new TAPleaseUpdateActiveOpponentEvent();
 
         #endregion
         
@@ -23,7 +29,7 @@ namespace Code.Logic.Events
 
         private static TAEventManager _shared;
 
-        private TAEventManager() { }
+        private TAEventManager() { Debug.Log("CREATING EVENT MANAGER"); }
 
         public static TAEventManager Shared()
         {

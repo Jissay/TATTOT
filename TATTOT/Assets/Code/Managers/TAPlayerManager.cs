@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace Code.Managers
 {
-    public class TAPlayerManager : TAAbstractManager<TAPlayerManager>
+    public class TAPlayerManager : MonoBehaviour
     {
         /// <summary>
         /// <see cref="TAOpponent"/> that's controlled by the player. 
         /// </summary>
         private TAOpponent _opponent;
 
-        private void Awake()
+        public void Awake()
         {
             TAEventManager.Shared().DidCreatePlayerInWorldEvent.AddListener(AddNewPlayer);
         }

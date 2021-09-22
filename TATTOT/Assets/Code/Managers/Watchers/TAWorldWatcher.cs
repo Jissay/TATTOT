@@ -1,18 +1,18 @@
+using Code.Logic;
 using Code.Logic.Events;
 using Code.ResourcesLoaders;
 using UnityEngine;
 
-namespace Code.Logic.Watchers
+namespace Code.Managers.Watchers
 {
     public class TAWorldWatcher : MonoBehaviour
     {
-        private bool _playerCreated = false;
-        private bool _allOpponentsCreated = false;
-        private bool _worldCreated = false;
+        private bool _allOpponentsCreated;
+        private bool _worldCreated;
 
-        private int _currentOpponentCount = 0;
+        private int _currentOpponentCount;
         
-        public TAWorldWatcher()
+        public void Awake()
         {
             TAEventManager.Shared().DidCreateWorldEvent.AddListener(WorldCreated);
             TAEventManager.Shared().DidCreateOpponentInWorldEvent.AddListener(OpponentCreated);

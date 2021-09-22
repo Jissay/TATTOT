@@ -38,6 +38,13 @@ namespace Code.Logic.Events
     public class TAPleaseCreatePlayerInWorldEvent: UnityEvent<Vector3Int> { }
 
     #endregion
+
+    #region Turn related events
+
+    public class TADidStartNewTurnEvent: UnityEvent<int> { }
+    public class TAPleaseUpdateActiveOpponentEvent: UnityEvent<int> { }
+
+    #endregion
     
     #region World related events
 

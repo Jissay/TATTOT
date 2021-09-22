@@ -1,3 +1,4 @@
+using System.Transactions;
 using Code.Factories;
 using Code.GameObjects;
 using Code.Logic;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Code.Managers
 {
-    public class TAWorldManager : TAAbstractManager<TAWorldManager>
+    public class TAWorldManager : MonoBehaviour
     {
         /// <summary>
         /// <see cref="TAWorldMap"/> object set in Unity UI. This is the tilemap that is displayed
@@ -17,7 +18,7 @@ namespace Code.Managers
 
         #region MonoBehaviour implementation
 
-        private void Awake()
+        public void Awake()
         {
             TAEventManager.Shared().PleaseCreateWorldEvent.AddListener(CreateWorld);
         }

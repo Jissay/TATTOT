@@ -12,7 +12,7 @@ namespace Code.Managers
         
         #region MonoBehaviour implementation
 
-        private void Awake()
+        public void Awake()
         {
             TAEventManager.Shared().PleaseStartGameEvent.AddListener(InitTurns);
         }
@@ -23,9 +23,9 @@ namespace Code.Managers
 
         private void InitTurns(int opponentsNumber)
         {
-            Debug.Log("Initiating turns ...");
+            Debug.Log("[ Initiating turns ... ]");
             
-            totalOpponents = opponentsNumber + 1;
+            totalOpponents = opponentsNumber;
             currentOpponent = 0;
             currentTurn = 0;
 
@@ -35,8 +35,8 @@ namespace Code.Managers
 
         private void UpdateGameStatus()
         {
-            //TAEventManager.Shared().DidUpdateActiveOpponent.Invoke(currentOpponent);
-            //TAEventManager.Shared().DidStartNewTurn.Invoke(currentTurn);
+            TAEventManager.Shared().PleaseUpdateActiveOpponentEvent.Invoke(currentOpponent);
+            TAEventManager.Shared().DidStartNewTurnEvent.Invoke(currentTurn);
         }
         
         #endregion
