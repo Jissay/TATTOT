@@ -74,7 +74,8 @@ namespace Code.Utils
 
         /// <summary>
         /// Get all positions of tiles within a given radius, from a center.
-        /// See <see cref="https://www.redblobgames.com/grids/hexagons/#rings"/> for more information.
+        /// See <see><cref>https://www.redblobgames.com/grids/hexagons/#rings</cref> </see>
+        /// for more information.
         /// </summary>
         /// <param name="center">Center of the radius to get tiles from.</param>
         /// <param name="radius">Radius of the circle from where to get tiles.</param>
@@ -95,7 +96,8 @@ namespace Code.Utils
 
         /// <summary>
         /// Get all positions of tiles drawing a circle around a given center, of a given radius.
-        /// See <see cref="https://www.redblobgames.com/grids/hexagons/#rings"/> for more information.
+        /// See <see> <cref>https://www.redblobgames.com/grids/hexagons/#rings</cref> </see>
+        /// for more information.
         /// </summary>
         /// <param name="center">Center of the radius to draw a circle and get tiles from.</param>
         /// <param name="radius">Radius of the circle to get tiles from.</param>

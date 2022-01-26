@@ -20,12 +20,11 @@ namespace Code.Managers.Watchers
 
         private void CheckIfWorldReady()
         {
-            if (_allOpponentsCreated && _worldCreated)
-            {
-                Debug.Log("[ World is ready ! ]");
-                TAEventManager.Shared().DidReadyWorldEvent.Invoke();
-                ClearWorldWatching();
-            }
+            if (!_allOpponentsCreated || !_worldCreated) return;
+            
+            Debug.Log("[ World is ready ! ]");
+            TAEventManager.Shared().DidReadyWorldEvent.Invoke();
+            ClearWorldWatching();
         }
 
         private void ClearWorldWatching()

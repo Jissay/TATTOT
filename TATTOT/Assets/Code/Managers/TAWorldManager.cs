@@ -1,4 +1,3 @@
-using System.Transactions;
 using Code.Factories;
 using Code.GameObjects;
 using Code.Logic;
@@ -53,9 +52,9 @@ namespace Code.Managers
             worldMap.tilemap.ClearAllTiles();
 
             // 3. Load each Tile using TATerrain data
-            foreach(var terrainData in terrainMatrix)
+            foreach(var (key, value) in terrainMatrix)
             {
-                worldMap.tilemap.SetTile(terrainData.Key, TATileLoader.LoadTileFromTerrain(terrainData.Value));
+                worldMap.tilemap.SetTile(key, TATileLoader.LoadTileFromTerrain(value));
             }
 
             // 4. Store the TATerrain data along the Tilemap

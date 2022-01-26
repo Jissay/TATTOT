@@ -5,10 +5,10 @@ namespace Code.Managers
 {
     public class TATurnManager : MonoBehaviour
     {
-        private int totalOpponents;
+        private int _totalOpponents;
         
-        private int currentTurn;
-        private int currentOpponent;
+        private int _currentTurn;
+        private int _currentOpponent;
         
         #region MonoBehaviour implementation
 
@@ -25,9 +25,9 @@ namespace Code.Managers
         {
             Debug.Log("[ Initiating turns ... ]");
             
-            totalOpponents = opponentsNumber;
-            currentOpponent = 0;
-            currentTurn = 0;
+            _totalOpponents = opponentsNumber;
+            _currentOpponent = 0;
+            _currentTurn = 0;
 
             TAEventManager.Shared().DidStartGameEvent.Invoke();
             UpdateGameStatus();
@@ -35,8 +35,8 @@ namespace Code.Managers
 
         private void UpdateGameStatus()
         {
-            TAEventManager.Shared().PleaseUpdateActiveOpponentEvent.Invoke(currentOpponent);
-            TAEventManager.Shared().DidStartNewTurnEvent.Invoke(currentTurn);
+            TAEventManager.Shared().PleaseUpdateActiveOpponentEvent.Invoke(_currentOpponent);
+            TAEventManager.Shared().DidStartNewTurnEvent.Invoke(_currentTurn);
         }
         
         #endregion

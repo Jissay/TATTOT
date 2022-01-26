@@ -1,6 +1,3 @@
-using Code.Logic.Events;
-using UnityEngine;
-
 namespace Code.Logic.Terrain
 {
     public abstract class TATerrain

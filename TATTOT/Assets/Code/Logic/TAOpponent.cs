@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = System.Random;
 
@@ -8,8 +7,8 @@ namespace Code.Logic
     {
         #region Meta-data
 
-        public string Name;
-        public bool IsPLayerControlled;
+        public readonly string Name;
+        private bool _isPLayerControlled;
         
         #endregion
 
@@ -21,11 +20,11 @@ namespace Code.Logic
 
         public TAOpponent(bool isPLayerControlled = false)
         {
-            IsPLayerControlled = isPLayerControlled;
+            _isPLayerControlled = isPLayerControlled;
             Name = CreateRandomString(15);
         }
         
-        private string CreateRandomString(int stringLength = 10) 
+        private static string CreateRandomString(int stringLength = 10) 
         {
             var totalLength = stringLength - 1;
             var randomString = "";

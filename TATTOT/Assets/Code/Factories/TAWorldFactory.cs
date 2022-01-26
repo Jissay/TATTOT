@@ -54,18 +54,13 @@ namespace Code.Factories
         /// <returns>The start position as a <see cref="Vector3Int"/></returns>
         public static Vector3Int BuildStartPosition(TAWorldMap worldMap)
         {
-            // 1 - Load the configuration parameters
-            var config = TAConfigurationLoader.GetConfiguration();
-            var worldSize = config.worldMapSize;
-            var maxEdgeReach = config.startMapEdgeMaxReach;
-
-            // 2 - Filter out non-valid start positions and gather the result as a list
+            // 1 - Filter out non-valid start positions and gather the result as a list
             var validStartPositions =
                 worldMap.WorldData.Where(kvp => kvp.Value.IsValidStartPosition)
                                   .Select(kv => kv.Key)
                                   .ToList();
 
-            // 3 - Get a random one within all the valid positions
+            // 2 - Get a random one within all the valid positions
             var random = new Random();
             return validStartPositions[random.Next(validStartPositions.Count)];
         }
