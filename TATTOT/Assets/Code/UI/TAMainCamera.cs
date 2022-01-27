@@ -34,7 +34,12 @@ namespace Code.UI
             MoveCameraIfNeeded();
             ZoomCameraIfNeeded();
         }
-
+        
+        /// <summary>
+        /// Move the camera if the current key press is one that should be moving the camera.
+        /// Multiple if are used as we want the camera to being able to be translated in
+        /// multiple directions. That could happen if the user presses two directions at a time.
+        /// </summary>
         private void MoveCameraIfNeeded()
         {
             if (Input.GetKey(KeyCode.RightArrow))
@@ -58,10 +63,14 @@ namespace Code.UI
             }
         }
 
+        /// <summary>
+        /// Zoom the camera if the user is scrolling in or out with his mouse wheel.
+        /// </summary>
         private void ZoomCameraIfNeeded()
         {
             var scroll = Input.GetAxis("Mouse ScrollWheel") * Sensitivity;
-            if (scroll + transform.position.z >= _minZIndex && scroll + transform.position.z <= MaxZIndex)
+            if (scroll + transform.position.z >= _minZIndex &&
+                scroll + transform.position.z <= MaxZIndex)
             {
                 transform.Translate(0, 0, scroll);
             }
