@@ -34,8 +34,11 @@ namespace Code.Factories
                     // Pick a terrain from the availableTerrains
                     var terrainType = random.Next(0, TerrainTypes.Length);
                     
+                    // Pick a tier for the newly created terrain
+                    var tier = new Random().Next(1, 3);
+                    
                     // Create the new terrain tile and set IsValidStartPosition from the max reach loaded earlier.
-                    var newTerrain = TerrainTypes[terrainType].Create();
+                    var newTerrain = TerrainTypes[terrainType].Create(tier);
                     newTerrain.IsValidStartPosition = IsWithinMaxReach(x, y, maxReach, size);
                     
                     // Create a tuple with position and terrain

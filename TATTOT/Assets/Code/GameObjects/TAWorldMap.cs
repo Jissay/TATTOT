@@ -12,7 +12,9 @@ namespace Code.GameObjects
         #region Unity Game objects
 
         public Tilemap tilemap;
-
+        public Tilemap uiTilemap;
+        public Vector3Int? CurrentSelected = null;
+        
         #endregion
 
         #region TA Game objects
@@ -21,7 +23,70 @@ namespace Code.GameObjects
         /// World data stored along the main <see cref="Tilemap"/>.
         /// Each entry is a <see cref="TATerrain"/> instance, with its own parameters.
         /// </summary>
-        public Dictionary<Vector3Int, TATerrain> WorldData { get; set; }
+        public Dictionary<Vector3Int, TATerrain> WorldData { get; private set; }
+
+        #endregion
+
+        #region MonoBehaviour implementation
+
+        private void Update()
+        {
+            // We handle only mouse left-click for now.
+            if (!Input.GetMouseButton(0) || Camera.main is null) return;
+            
+            GetTerrainFromMouseClick();
+        }
+
+        #endregion
+
+        #region WorldMap handling
+
+        private void GetTerrainFromMouseClick()
+        {
+            if (Camera.main is null) return;
+            
+            // Create a ray from camera to world
+            // Then create a plane object to raycast against
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var plane = new Plane(Vector3.back, tilemap.origin.z);
+
+            // Do a Plane Raycast with your screen to world ray
+            // then get the raycast to hit the plane and convert to
+            // tilemap cell position.
+            plane.Raycast(ray, out var hitDist);
+            var clickedPos = tilemap.WorldToCell(ray.GetPoint(hitDist));
+            
+            // Clear currentSelected cell if there is one
+            if (CurrentSelected is { } currentPos)
+            {
+                uiTilemap.SetTile(currentPos, null);
+            }
+            
+            // Set new selected tile
+            uiTilemap.SetTile(clickedPos, TATileLoader.LoadUISelectedTile());
+            CurrentSelected = clickedPos;
+        }
+
+        #endregion
+
+        #region WorldMap creates
+
+        public void BuildTerrain(Dictionary<Vector3Int, TATerrain> terrainMatrix)
+        {
+            // 1. Clear the tile map
+            tilemap.ClearAllTiles();
+            uiTilemap.ClearAllTiles();
+            
+            // 2. Load each Tile using TATerrain data and create an empty
+            // tile for UITileMap
+            foreach(var (key, value) in terrainMatrix)
+            {
+                tilemap.SetTile(key, TATileLoader.LoadTileFromTerrain(value));
+            }
+
+            // 3. Store the TATerrain data along the Tilemap
+            WorldData = terrainMatrix;
+        }
 
         #endregion
         

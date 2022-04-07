@@ -1,9 +1,9 @@
 {
 	"numberOfOpponents" : 4,
 	
-	"worldMapHeight": 45,
+	"worldMapHeight": 50,
 	"worldMapWidth": 50,
 
-	"opponentMaxReach": 5,
+	"opponentMaxReach": 10,
 	"startMapEdgeMaxReach": 10
 }

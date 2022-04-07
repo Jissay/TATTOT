@@ -26,7 +26,7 @@ namespace Code.Logic
 
         #region Computed vars
 
-        public Vector2Int worldMapSize => new Vector2Int(worldMapWidth, worldMapHeight);
+        public Vector2Int worldMapSize => new(worldMapWidth, worldMapHeight);
 
         #endregion
     }

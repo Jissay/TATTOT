@@ -1,3 +1,4 @@
+using System;
 using Code.Factories;
 using Code.GameObjects;
 using Code.Logic;
@@ -21,9 +22,9 @@ namespace Code.Managers
         {
             TAEventManager.Shared().PleaseCreateWorldEvent.AddListener(CreateWorld);
         }
-
-        #endregion
         
+        #endregion
+
         #region World creation
         
         public void CreateWorld()
@@ -47,20 +48,9 @@ namespace Code.Managers
             
             // 1. Load the new world data using <see cref="TAWorldFactory"/>
             var terrainMatrix = TAWorldFactory.BuildWithSize(TAConfigurationLoader.GetConfiguration().worldMapSize);
+            worldMap.BuildTerrain(terrainMatrix);
 
-            // 2. Clear the Tilemap
-            worldMap.tilemap.ClearAllTiles();
-
-            // 3. Load each Tile using TATerrain data
-            foreach(var (key, value) in terrainMatrix)
-            {
-                worldMap.tilemap.SetTile(key, TATileLoader.LoadTileFromTerrain(value));
-            }
-
-            // 4. Store the TATerrain data along the Tilemap
-            worldMap.WorldData = terrainMatrix;
-
-            // 5. Alert the game that world has been created
+            // 2. Alert the game that world has been created
             TAEventManager.Shared().DidCreateWorldEvent.Invoke();
         }
 
