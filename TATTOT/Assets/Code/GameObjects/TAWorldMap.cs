@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Code.Logic.Events;
 using Code.Logic.Terrain;
 using Code.ResourcesLoaders;
 using Code.Utils;
@@ -32,9 +33,10 @@ namespace Code.GameObjects
         private void Update()
         {
             // We handle only mouse left-click for now.
-            if (!Input.GetMouseButton(0) || Camera.main is null) return;
-            
-            GetTerrainFromMouseClick();
+            if (Input.GetMouseButton(0))
+            {
+                GetTerrainFromMouseClick();
+            }
         }
 
         #endregion
@@ -62,9 +64,24 @@ namespace Code.GameObjects
                 uiTilemap.SetTile(currentPos, null);
             }
             
-            // Set new selected tile
-            uiTilemap.SetTile(clickedPos, TATileLoader.LoadUISelectedTile());
-            CurrentSelected = clickedPos;
+            // Show selection if there is a tile, and invoke event
+            if (tilemap.GetTile(clickedPos) != null)
+            {
+                // Set new selected tile
+                uiTilemap.SetTile(clickedPos, TATileLoader.LoadUISelectedTile());
+                CurrentSelected = clickedPos;
+                
+                // Invoke selection event
+                TAEventManager.Shared().DidSelectTerrainEvent.Invoke(WorldData[clickedPos]);
+            }
+            else
+            {
+                // Clear current selected and send didUnselectTerrain event
+                CurrentSelected = null;
+                TAEventManager.Shared().DidUnselectTerrainEvent.Invoke();
+            }
+            
+            
         }
 
         #endregion

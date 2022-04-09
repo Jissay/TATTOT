@@ -11,8 +11,10 @@ namespace Code.Logic.Events
         public TADidCreatePlayerInWorldEvent DidCreatePlayerInWorldEvent { get; } = new TADidCreatePlayerInWorldEvent();
         public TADidCreateWorldEvent DidCreateWorldEvent { get; } = new TADidCreateWorldEvent();
         public TADidReadyWorldEvent DidReadyWorldEvent { get; } = new TADidReadyWorldEvent();
+        public TADidSelectTerrainEvent DidSelectTerrainEvent { get; } = new TADidSelectTerrainEvent();
         public TADidStartGameEvent DidStartGameEvent { get; } = new TADidStartGameEvent();
         public TADidStartNewTurnEvent DidStartNewTurnEvent { get; } = new TADidStartNewTurnEvent();
+        public TADidUnselectTerrainEvent DidUnselectTerrainEvent { get; } = new TADidUnselectTerrainEvent();
 
         public TAPleaseCreateOpponentInWorldEvent PleaseCreateOpponentInWorldEvent { get; } =
             new TAPleaseCreateOpponentInWorldEvent();

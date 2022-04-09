@@ -1,3 +1,4 @@
+using Code.Logic.Terrain;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -44,6 +45,14 @@ namespace Code.Logic.Events
     public class TADidStartNewTurnEvent: UnityEvent<int> { }
     public class TAPleaseUpdateActiveOpponentEvent: UnityEvent<int> { }
 
+    #endregion
+
+    #region UI related events
+
+    public class TADidSelectTerrainEvent: UnityEvent<TATerrain> { }
+
+    public class TADidUnselectTerrainEvent: UnityEvent { }
+    
     #endregion
     
     #region World related events
