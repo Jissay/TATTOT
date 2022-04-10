@@ -4,6 +4,7 @@ namespace Code.Logic.Terrain
     {
         public TARock(int tier) : base(tier)
         {
+            Height = 4;
         }
     }
 }

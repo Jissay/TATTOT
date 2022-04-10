@@ -3,6 +3,10 @@
 	
 	"worldMapHeight": 50,
 	"worldMapWidth": 50,
+	
+	"grassRadius": 6,
+	"mountainRadius": 5,
+	"sandRadius": 8,
 
 	"opponentMaxReach": 10,
 	"startMapEdgeMaxReach": 10

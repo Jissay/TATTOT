@@ -19,6 +19,10 @@ namespace Code.Logic
         public int worldMapHeight;
         public int worldMapWidth;
 
+        public int grassRadius;
+        public int mountainRadius;
+        public int sandRadius;
+        
         public int opponentMaxReach;
         public int startMapEdgeMaxReach;
 

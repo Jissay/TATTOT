@@ -4,6 +4,7 @@ namespace Code.Logic.Terrain
     {
         public TASand(int tier) : base(tier)
         {
+            Height = 2;
         }
     }
 }

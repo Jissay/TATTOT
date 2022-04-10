@@ -4,11 +4,12 @@ namespace Code.Logic.Terrain
     {
         public bool IsValidStartPosition = true;
         public readonly int Tier;
+        public int Height;
 
         public int AvailableSlots => GetSlotsFromTier(Tier);
 
         public string TileName => GetTileName();
-        
+
         protected TATerrain(int tier)
         {
             Tier = tier;
