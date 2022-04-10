@@ -4,7 +4,6 @@ namespace Code.Logic.Terrain
     {
         public bool IsValidStartPosition = true;
         public readonly int Tier;
-        public int Height;
 
         public int AvailableSlots => GetSlotsFromTier(Tier);
 

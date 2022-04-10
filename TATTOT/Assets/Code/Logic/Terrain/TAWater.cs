@@ -4,7 +4,6 @@ namespace Code.Logic.Terrain
     {
         public TAWater(int tier) : base(tier)
         {
-            Height = 1;
         }
     }
 }
