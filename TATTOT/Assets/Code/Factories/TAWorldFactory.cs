@@ -4,6 +4,8 @@ using Code.GameObjects;
 using Code.Logic.Terrain;
 using Code.ResourcesLoaders;
 using Code.Utils;
+using Code.Utils.ExternalTools;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using Random = System.Random;
 
@@ -61,7 +63,7 @@ namespace Code.Factories
             }
             
             // 4. Add some more mountains to add more realistic variations
-            FillMatrixWithTerrainType(size, mountainPositions, availableSlots, new TARockFactory(), maxReach, terrainMatrix, mountainRadius, true);
+            //FillMatrixWithTerrainType(size, mountainPositions, availableSlots, new TARockFactory(), maxReach, terrainMatrix, mountainRadius, true);
 
             //TODO: Min-max range for grass and sand + get it from mountain radius
             
@@ -89,18 +91,20 @@ namespace Code.Factories
                                                       TATerrainFactory terrainFactory, 
                                                       int maxReach,
                                                       IDictionary<Vector3Int, TATerrain> terrainMatrix,
-                                                      int rangeFromTop, 
-                                                      bool variableRadius = false)
+                                                      int rangeFromTop)
         {
             foreach (var mountain in mountainPositions)
             {
-                var newRadius = rangeFromTop;
+                /*var newRadius = rangeFromTop;
                 if (variableRadius)
                 {
                     newRadius = new Random().Next(0, rangeFromTop);
                 }
+                */
                 
-                var newGrassSlots = TATileTools.GetTilesInRadius(mountain, newRadius).Where(availableSlots.Contains);
+                //var newGrassSlots = TATileTools.GetTilesInRadius(mountain, rangeFromTop).Where(availableSlots.Contains);
+                var newGrassSlots = GeneratePointsInArea(mountain, rangeFromTop).Where(availableSlots.Contains);
+                
                 foreach (var newSlot in newGrassSlots)
                 {
                     var terrain = terrainFactory.Create(1); //TODO: Tier is not random
@@ -110,6 +114,19 @@ namespace Code.Factories
                     availableSlots.Remove(newSlot);
                 }
             }
+        }
+
+        private static IEnumerable<Vector3Int> GeneratePointsInArea(Vector3Int starterPoint, int maxRange)
+        {
+            var width = (starterPoint.x + maxRange) - (starterPoint.x - maxRange);
+            var height = (starterPoint.y + maxRange) - (starterPoint.y - maxRange);
+            
+            var poissonSampler = new TAPoissonDiscSampler(width,height,1);
+            
+            // Transform Vector2 (float) objects into Vector3Int, translated into the correct coordinates as PoissonSampler is
+            // generating points starting from 0,0 coordinates.
+            return from vector2 in poissonSampler.Samples()
+                   select new Vector3Int((int)vector2.x + starterPoint.x - maxRange, (int)vector2.y + starterPoint.y - maxRange, 0);
         }
 
 

@@ -14,7 +14,7 @@ namespace Code.GameObjects
 
         public Tilemap tilemap;
         public Tilemap uiTilemap;
-        public Vector3Int? CurrentSelected = null;
+        private Vector3Int? _currentSelected = null;
         
         #endregion
 
@@ -59,7 +59,7 @@ namespace Code.GameObjects
             var clickedPos = tilemap.WorldToCell(ray.GetPoint(hitDist));
             
             // Clear currentSelected cell if there is one
-            if (CurrentSelected is { } currentPos)
+            if (_currentSelected is { } currentPos)
             {
                 uiTilemap.SetTile(currentPos, null);
             }
@@ -69,7 +69,7 @@ namespace Code.GameObjects
             {
                 // Set new selected tile
                 uiTilemap.SetTile(clickedPos, TATileLoader.LoadUISelectedTile());
-                CurrentSelected = clickedPos;
+                _currentSelected = clickedPos;
                 
                 // Invoke selection event
                 TAEventManager.Shared().DidSelectTerrainEvent.Invoke(WorldData[clickedPos]);
@@ -77,7 +77,7 @@ namespace Code.GameObjects
             else
             {
                 // Clear current selected and send didUnselectTerrain event
-                CurrentSelected = null;
+                _currentSelected = null;
                 TAEventManager.Shared().DidUnselectTerrainEvent.Invoke();
             }
             
@@ -133,7 +133,12 @@ namespace Code.GameObjects
         private void SetPositionAsNotEligible(int x, int y)
         {
             var position = new Vector3Int(x, y, 0);
-            WorldData[position].IsValidStartPosition = false;
+            
+            // Fix in case we are getting out of bounds
+            if (WorldData.ContainsKey(position))
+            {
+                WorldData[position].IsValidStartPosition = false;
+            }
         }
 
         #endregion

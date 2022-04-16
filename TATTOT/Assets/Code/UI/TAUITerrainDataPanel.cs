@@ -1,4 +1,3 @@
-using System;
 using Code.Logic.Events;
 using Code.Logic.Terrain;
 using Code.ResourcesLoaders;
@@ -7,7 +6,7 @@ using UnityEngine;
 
 namespace Code.UI
 {
-    public class TAUICanvas : MonoBehaviour
+    public class TAUITerrainDataPanel : MonoBehaviour
     {
         public TextMeshProUGUI terrainTierText;
         public TextMeshProUGUI terrainSlotsText;

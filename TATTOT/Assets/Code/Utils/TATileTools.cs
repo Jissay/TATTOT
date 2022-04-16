@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Code.Logic.Terrain;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,36 +8,6 @@ namespace Code.Utils
 {
     public static class TATileTools
     {
-        #region Tile directions
-
-        /*
-            Note that we need two arrays, as each direction is different based if the current tile row is
-            an odd or even number. See https://www.redblobgames.com/grids/hexagons/#coordinates-offset for
-            more information about coordinates representation.
-         */
-        
-        private static readonly Vector3Int[] EvenRowsDirections = new Vector3Int[]
-        {
-            new Vector3Int(1, 0, 0), 
-            new Vector3Int(0, -1, 0), 
-            new Vector3Int(-1, -1, 0),
-            new Vector3Int(-1, 0, 0), 
-            new Vector3Int(-1, 1, 0), 
-            new Vector3Int(0, 1, 0)
-        };
-        
-        private static readonly Vector3Int[] OddRowsDirections = new Vector3Int[]
-        {
-            new Vector3Int(1, 0, 0), 
-            new Vector3Int(+1, -1, 0), 
-            new Vector3Int(0, -1, 0),
-            new Vector3Int(-1, 0, 0), 
-            new Vector3Int(0, 1, 0), 
-            new Vector3Int(1, 1, 0)
-        };
-
-        #endregion
-
         #region Tile movement
 
         /// <summary>
@@ -47,10 +18,10 @@ namespace Code.Utils
         /// <param name="directionIndex">Direction to go for the path.</param>
         /// <param name="steps">Number of steps to do.</param>
         /// <returns>The last position of the path.</returns>
-        private static Vector3Int GetToDirection(Vector3Int start, int directionIndex, int steps)
+        private static Vector3Int GetToDirection(Vector3Int start, TATilesDirections directionIndex, int steps)
         {
             var finish = start;
-            for (var i = 0; i < steps; i++) { finish += GetDirectionArray(finish)[directionIndex]; }
+            for (var i = 0; i < steps; i++) { finish += directionIndex.GetVector(start); }
             return finish;
         }
 
@@ -65,7 +36,7 @@ namespace Code.Utils
         /// <returns>All neighbors of the current position.</returns>
         public static List<Vector3Int> GetNeighbors(Vector3Int position)
         {
-            return GetDirectionArray(position).Select(direction => position + direction).ToList();
+            return TATilesDirectionsHelper.GetAllVectors(position).Select(direction => position + direction).ToList();
         }
 
         #endregion
@@ -109,17 +80,18 @@ namespace Code.Utils
             // Pick the 4th direction as this is the one we can use to start from index 0
             // while running through all directions in the next step.
             // We start from a given point, from the radius distance of the center.
-            var currentTile = GetToDirection(center, 4, radius);
+            var currentTile = GetToDirection(center, TATilesDirections.West, radius);
             results.Add(currentTile);
-            
+
+            var directionsArray = TATilesDirectionsHelper.GetAllVectors(currentTile);
             // We run through each direction
-            for (var directionIndex = 0; directionIndex < 6; directionIndex++)
+            foreach (var direction in directionsArray)
             {
                 // We make a number of steps equivalent to the radius,
                 // this is a "side" of our ring.
                 for (var steps = 0; steps < radius; steps++)
                 {
-                    currentTile += GetDirectionArray(currentTile)[directionIndex];
+                    currentTile += direction;
                     results.Add(currentTile);
                 }
                 // When the side of our ring is done, we move to next direction to continue
@@ -127,15 +99,6 @@ namespace Code.Utils
             }
 
             return results;
-        }
-
-        #endregion
-
-        #region Convenience tools
-
-        private static Vector3Int[] GetDirectionArray(Vector3Int position)
-        {
-            return position.y % 2 == 0 ? EvenRowsDirections : OddRowsDirections;
         }
 
         #endregion

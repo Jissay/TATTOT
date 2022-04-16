@@ -1,4 +1,5 @@
 using Code.Logic.Terrain;
+using Code.Logic.Terrain.Types;
 
 namespace Code.Factories
 {

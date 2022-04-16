@@ -1,6 +1,7 @@
 using Code.Logic.Terrain;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Code.Logic.Events
 {
@@ -58,7 +59,7 @@ namespace Code.Logic.Events
     #region World related events
 
     public class TADidCreateWorldEvent: UnityEvent {}
-    public class TAPleaseCreateWorldEvent: UnityEvent {}
+    public class TAPleaseCreateWorldEvent: Button.ButtonClickedEvent {} // This is a ButtonClickedEvent as it is used in dev tools
     public class TADidAddNewStartPositionEvent: UnityEvent<Vector3Int> {}
     public class TADidReadyWorldEvent: UnityEvent {}
     

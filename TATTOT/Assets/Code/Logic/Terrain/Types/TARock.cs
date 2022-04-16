@@ -1,4 +1,4 @@
-namespace Code.Logic.Terrain
+namespace Code.Logic.Terrain.Types
 {
     internal class TARock : TATerrain
     {

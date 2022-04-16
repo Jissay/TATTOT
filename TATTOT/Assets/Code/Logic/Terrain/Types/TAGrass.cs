@@ -1,4 +1,4 @@
-namespace Code.Logic.Terrain
+namespace Code.Logic.Terrain.Types
 {
     public class TAGrass : TATerrain
     {
